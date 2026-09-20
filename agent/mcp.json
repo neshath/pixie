@@ -1,0 +1,7 @@
+{
+  "name": "pixie-mcp",
+  "command": "python3 tools/pixie_mcp.py --project .",
+  "transport": "stdio",
+  "description": "Safe local Pixie project tools for Claude, Codex, and other MCP hosts"
+}
+
