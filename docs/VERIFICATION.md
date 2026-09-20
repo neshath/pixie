@@ -15,11 +15,12 @@ It is not a native macOS/Linux executable, so the inspection here is metadata/st
 
 - `python3 tools/test_pixie_mcp.py`: expected pass once committed.
 - `python3 -m unittest discover -s tools -p 'test_*.py'`: expected pass.
-- Godot headless check: not run because Godot is not installed in the current environment.
+- Godot 4.7.2 headless editor check: pass after fixing typed GDScript and duplicate-node errors.
+- Godot runtime launch: pass; the project starts as a real OpenGL/Metal process without script/runtime errors in the terminal output.
 
 ## Native evidence boundary
 
-The Godot application must still be launched on a machine with Godot 4 to verify:
+The Godot application should still be visually checked on a machine with Godot 4 to verify:
 
 1. square window and PIXIE title;
 2. GFX pixel painting;
@@ -28,5 +29,4 @@ The Godot application must still be launched on a machine with Godot 4 to verify
 5. save/reload;
 6. AGENT workspace and MCP documentation.
 
-A passing Python MCP test proves the project-agent contract only. It does not prove the Godot scene renders or that a provider is connected.
-
+A passing Python MCP test proves the project-agent contract only. The Godot headless check proves scripts load; it does not prove a provider is connected. The desktop accessibility inspector exposed the Godot editor title but did not expose the standalone runtime window, so pixel-level visual inspection remains a manual check.

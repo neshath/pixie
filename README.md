@@ -28,7 +28,7 @@ Or run headless validation when Godot is available:
 godot --headless --path . --editor --quit
 ```
 
-The current development machine does not have Godot installed, so the Godot scene has not been locally executed here. The Python MCP contract is independently tested.
+Godot 4.7.2 is the current local verification version. If Godot is not installed on another machine, install Godot 4.x before opening the project.
 
 ## MCP agent layer
 
@@ -84,4 +84,3 @@ PICO-8 demonstrates the value of strict, friendly limits and an integrated cartr
 ## License
 
 GPL-3.0-or-later. See [LICENSE](LICENSE).
-

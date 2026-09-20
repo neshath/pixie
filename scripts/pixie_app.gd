@@ -27,7 +27,7 @@ var active_color := 3
 var active_tile := 1
 var active_frame := 0
 var sprite_frames: Array = []
-var palette: Array[Color] = []
+var palette: Array = []
 var map_tiles: Array = []
 var map_collision: Array = []
 var map_width := 20
@@ -121,7 +121,6 @@ func _make_controls() -> void:
 
     mode_button = _button("SIMPLE", "Toggle Simple / Advanced · Ctrl+K")
     mode_button.pressed.connect(_toggle_mode)
-    add_child(mode_button)
 
     for label in ["PENCIL", "ERASE", "FILL", "STAMP", "COLLISION"]:
         var tool_button := _button(label, "GFX/MAP tool")
@@ -158,7 +157,7 @@ func _layout_controls() -> void:
         button.size = Vector2(82, 34)
         x += 84.0
 
-    var action_x := max(650.0, size.x - 270.0)
+    var action_x: float = maxf(650.0, size.x - 270.0)
     for button in action_buttons:
         button.position = Vector2(action_x, 14)
         button.size = Vector2(80, 32)
@@ -263,7 +262,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 
 func _gui_input(event: InputEvent) -> void:
     if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-        var point := event.position
+        var point: Vector2 = event.position
         if workspace == "GFX":
             _paint_sprite(point)
         elif workspace == "MAP":
@@ -273,12 +272,12 @@ func _stage_rect() -> Rect2:
     return Rect2(32, 126, size.x - 64, size.y - 220)
 
 func _paint_sprite(point: Vector2) -> void:
-    var stage := _stage_rect()
-    var side := min(stage.size.x * 0.68, stage.size.y - 34.0)
+    var stage: Rect2 = _stage_rect()
+    var side: float = minf(stage.size.x * 0.68, stage.size.y - 34.0)
     var rect := Rect2(stage.position + Vector2(24, 22), Vector2(side, side))
     if not rect.has_point(point):
         return
-    var cell := side / 16.0
+    var cell: float = side / 16.0
     var p := Vector2i(int((point.x - rect.position.x) / cell), int((point.y - rect.position.y) / cell))
     if p.x < 0 or p.y < 0 or p.x >= 16 or p.y >= 16:
         return
@@ -326,8 +325,8 @@ func _paint_map(point: Vector2) -> void:
     queue_redraw()
 
 func _map_rect() -> Rect2:
-    var stage := _stage_rect()
-    var side := min(stage.size.x - 48.0, stage.size.y - 42.0)
+    var stage: Rect2 = _stage_rect()
+    var side: float = minf(stage.size.x - 48.0, stage.size.y - 42.0)
     return Rect2(stage.position + Vector2(24, 22), Vector2(side, side * 0.75))
 
 func _move_player(direction: Vector2i) -> void:
@@ -467,18 +466,18 @@ func _draw_home(stage: Rect2) -> void:
 func _draw_gfx(stage: Rect2) -> void:
     draw_string(ThemeDB.fallback_font, stage.position + Vector2(24, 34), "GFX DESK", HORIZONTAL_ALIGNMENT_LEFT, -1, 21, INK)
     draw_string(ThemeDB.fallback_font, stage.position + Vector2(24, 56), "Pixel, palette, frame, play.", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, MUTED)
-    var side := min(stage.size.x * 0.62, stage.size.y - 112.0)
+    var side: float = minf(stage.size.x * 0.62, stage.size.y - 112.0)
     var rect := Rect2(stage.position + Vector2(24, 78), Vector2(side, side))
     draw_rect(rect, Color("#11172c"))
-    var cell := side / 16.0
+    var cell: float = side / 16.0
     var pixels: Array = sprite_frames[active_frame]
     if onion_skin and sprite_frames.size() > 1:
         _draw_sprite_frame(rect, sprite_frames[(active_frame + sprite_frames.size() - 1) % sprite_frames.size()], 0.22)
     _draw_sprite_frame(rect, pixels, 1.0)
     if show_grid:
         for i in range(17):
-            var x := rect.position.x + i * cell
-            var y := rect.position.y + i * cell
+            var x: float = rect.position.x + i * cell
+            var y: float = rect.position.y + i * cell
             draw_line(Vector2(x, rect.position.y), Vector2(x, rect.end.y), Color(1, 1, 1, 0.10), 1.0)
             draw_line(Vector2(rect.position.x, y), Vector2(rect.end.x, y), Color(1, 1, 1, 0.10), 1.0)
     draw_string(ThemeDB.fallback_font, Vector2(rect.position.x, rect.end.y + 28), "FRAME %d / %d" % [active_frame + 1, sprite_frames.size()], HORIZONTAL_ALIGNMENT_LEFT, -1, 13, MUTED)
